@@ -54,7 +54,8 @@ func TestRemoveItem(t *testing.T) {
 
 	hasCoffee = false
 	newBudget.RemoveItem("coffee")
-	for i := range newBudget.Items {
+	 l := len(newBudget.Items)
+	for i := 0; i<l;i++ {
 		if newBudget.Items[i].Description == "coffee" {
 			hasCoffee = true
 		}

@@ -65,27 +65,32 @@ func (b *Budget) AddItem(description string, price float32) error {
 
 // RemoveItem removes a given item from the current budget
 func (b *Budget) RemoveItem(description string) {
+	newItems := make([]Item,len(b.Items)-1)
 	for i := range b.Items {
+	   j := 0
 		item := b.Items[i]
 		bol := item.Description == description
-		if bol {
-			b.Items = append(b.Items[:i], b.Items[i+1:]...)
+		if !bol {
+		newItems[j] = item
+		j++
 		}
 	}
+	b.Items = newItems
 }
 
 // CreateBudget creates a new budget with a specified max
 func CreateBudget(month time.Month, max float32) (*Budget, error) {
-	var newBudget *Budget
-	newBudget.Max = max
-	if len(report) > 12{
+	var newBudget = Budget{
+		Max: max,
+	}
+	if len(report) >= 12{
 		return nil,errReportIsFull
 	}
 	if _, ok := report[month]; ok {
 		return nil, errDuplicateEntry
 	}
-	report[month] = newBudget
-	return newBudget, nil
+	report[month] = &newBudget
+	return &newBudget, nil
 }
 
 // GetBudget returns budget for given month
